@@ -9,15 +9,15 @@ window.onload = function () {
 
     let self = this;
 
-    function onReady() {
+    onReady = (info) => {
       clearInterval(interval);
       clearTimeout(timer);
       this.info.innerHTML += "Готово!";
       self.state = "stopped";
       this.info.innerHTML += self.state;
-    }
+    };
 
-    this.run = function () {
+    this.run = (info) => {
       self.state = "started";
       this.info.innerHTML += "Начинаю работу...";
       this.info.innerHTML += "Время приготовления - " + self.time + " ";
@@ -28,7 +28,7 @@ window.onload = function () {
       this.info.innerHTML += self.state;
     };
 
-    this.stop = function () {
+    this.stop = (info) => {
       clearInterval(interval);
       clearTimeout(timer);
       this.info.innerHTML += "Принудительное выключение!";
@@ -40,13 +40,13 @@ window.onload = function () {
   //machine.run();
   //machine.stop(); // Принудительное выключение
 
-  function CoffeeMachine(info, drink) {
+  function CoffeeMachine(info) {
     Machine.call(this, info);
 
-    this.drink = drink;
+    this.drink = "вода";
     let parentRun = this.run;
 
-    this.run = function (drink) {
+    this.run = (drink) => {
       try {
         if (this.state == "started") {
           //this.info.innerHTML += 'Машина занята!';
@@ -55,6 +55,7 @@ window.onload = function () {
         } else if (drink != undefined) {
           this.drink = drink;
           this.info.innerHTML += "Приготовление: " + this.drink + " ";
+
           switch (drink) {
             case (drink = "latte"):
               this.time = 5000;
@@ -66,9 +67,9 @@ window.onload = function () {
               alert("напиток не найден");
               break;
           }
-
-          parentRun();
         }
+
+        parentRun();
       } catch (ex) {
         this.info.innerHTML += ex.message;
       }
@@ -79,9 +80,9 @@ window.onload = function () {
     Machine.call(this, info);
 
     this.dish = "вода";
-    let parentRun = this.run;
+    let parentRun1 = this.run;
 
-    this.run = function (dish) {
+    this.run = (dish) => {
       try {
         if (this.state == "started") {
           //this.info.innerHTML += 'Машина занята!';
@@ -104,9 +105,9 @@ window.onload = function () {
               alert("блюдо не найдено");
               break;
           }
-
-          parentRun();
         }
+
+        parentRun1();
       } catch (ex) {
         this.info.innerHTML += ex.message;
       }
@@ -119,7 +120,7 @@ window.onload = function () {
   let espresso = document.getElementById("espresso");
   let stop = document.getElementById("stop");
 
-  let machine = new Machine(info);
+  // let machine = new Machine(info);
   let coffeeMachine = new CoffeeMachine(info);
 
   latte.addEventListener("click", function () {
